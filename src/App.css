@@ -74,7 +74,6 @@
 
 .hero,
 .section,
-.stats-grid,
 .party-section {
   margin: 0 auto;
   max-width: 1160px;
@@ -197,34 +196,6 @@ p {
 
 .hero-card span {
   color: #8be9fd;
-}
-
-.stats-grid {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(4, 1fr);
-  padding-top: 0;
-}
-
-.stat-card {
-  background: rgba(18, 9, 26, 0.7);
-  border: 1px solid rgba(255, 209, 102, 0.18);
-  border-radius: 18px;
-  padding: 18px;
-}
-
-.stat-card strong {
-  color: #ffd166;
-  display: block;
-  font-family: var(--mono);
-  font-size: 1.45rem;
-}
-
-.stat-card span {
-  color: #f4d6b6;
-  display: block;
-  font-size: 0.88rem;
-  margin-top: 6px;
 }
 
 .section {
@@ -375,6 +346,31 @@ p {
   margin-bottom: 48px;
 }
 
+.record-footer {
+  align-items: center;
+  color: rgba(244, 214, 182, 0.72);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.82rem;
+  gap: 8px;
+  justify-content: center;
+  line-height: 1.7;
+  margin: -18px auto 0;
+  max-width: 1160px;
+  padding: 0 18px 34px;
+  position: relative;
+  text-align: center;
+}
+
+.record-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.record-footer a:hover {
+  color: #ffd166;
+}
+
 @media (max-width: 860px) {
   .top-nav {
     align-items: flex-start;
@@ -394,10 +390,6 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .now-logo {
     aspect-ratio: auto;
     min-height: 92px;
@@ -407,7 +399,6 @@ p {
 @media (max-width: 520px) {
   .hero,
   .section,
-  .stats-grid,
   .party-section {
     padding-left: 14px;
     padding-right: 14px;
@@ -415,10 +406,6 @@ p {
 
   .hero {
     padding-top: 48px;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
   }
 
   .actions,
