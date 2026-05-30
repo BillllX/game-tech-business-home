@@ -2,29 +2,32 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 const links = {
-  dinq: 'http://150.158.85.220/dinq/',
-  poker: 'http://aiagentswitcher.com:3000/',
-  lobster: 'http://150.158.85.220:5176/',
-  neon: 'http://150.158.85.220/neon-ebb/',
+  dinq: 'http://aiagentswitcher.com/dinq/',
+  poker: 'http://aiagentswitcher.com/aipokerclub',
+  lobster: 'http://aiagentswitcher.com/lobster',
+  neon: 'http://aiagentswitcher.com/neon-ebb/',
   github: 'https://github.com/BillllX',
   email: 'mailto:billfighting@gmail.com',
 }
 
 const copy = {
   zh: {
-    nav: ['关于我', '现在在做', '作品', '组队'],
+    pageTitle: 'Bill Xu | 游戏人生与 AI 资源向导',
+    metaDescription: 'Bill Xu 的个人主页：金融科技、AI 咨询、游戏化产品和个人项目入口。',
+    nav: ['现在在做', '作品', '关于我', '组队'],
     heroEyebrow: 'Bill Xu · 游戏人生玩家 / AI 资源向导',
     heroTitle: '把人生当成开放世界，把业务、AI 和产品都当成可以组队打的副本。',
     heroText:
       '我从银行系统工程师一路打到金融科技业务一线，也经历过互联网金融、隐私计算、助贷机构合作和 AI Agent 实验。这个首页是我的个人入口：朋友可以了解我现在在做什么，合作伙伴可以快速看到我能一起打哪些怪。',
     heroPrimary: '看我现在在做什么',
     heroSecondary: '找我组队',
-    stats: [
-      ['800亿+', '峰值在贷余额经验'],
-      ['50亿+', '峰值单月交易量'],
-      ['10亿+', 'DINQ 多源人才数据'],
-      ['1000+', '可调度 AI 专家'],
-    ],
+    heroImageAlt: 'Bill Xu 游戏人生封面',
+    heroCardTitle: '存档文件',
+    heroCardMeta: '金融科技 / AI / 游戏人生',
+    worksEyebrow: '项目 / 道具栏',
+    aboutEyebrow: '关于我 / 存档',
+    partyEyebrow: '一起组队',
+    recordLabel: '备案信息',
     aboutTitle: '自我介绍',
     aboutLead:
       '现在首页不再只是一段酷炫封面，而是一个信息更密的个人存档。我的底色仍然是“游戏人生”：每段经历都是一关，每个项目都是一次组队，每个新方向都像新地图。',
@@ -58,24 +61,24 @@ const copy = {
       {
         title: 'AI Poker Lab',
         tag: 'AI Agent / Poker Arena',
-        text: '训练自己的 AI Poker 玩家，观察比赛、调整风格、进入牌桌竞技。它把游戏变成 AI Agent 决策实验场。',
-        bullets: ['AI 玩家卡片', '本地 Agent 接入', '排行榜和竞技桌', 'Texas Poker Agent Skill'],
+        text: '训练自己的 AI Poker 玩家，观察实验桌和排行榜，也可以把本地 Agent 接进牌桌竞技。',
+        bullets: ['AI 玩家卡片', 'Lab Tables', '本地 Agent 接入', 'Texas Poker Agent Skill'],
         link: links.poker,
         action: '打开 AI Poker Lab',
       },
       {
         title: '小龙虾 AI 问答助手',
         tag: 'Personal AI / WeChat Companion',
-        text: '一个可认领的专属 AI 伙伴：选择说话风格、绑定微信，像朋友一样随时对话。',
-        bullets: ['6+ 种说话风格', '微信对话', '记忆能力', '3 步认领'],
+        text: '一个赛博小龙虾接入终端：输入手机号自动分配 Agent，微信扫码后进入你的聊天通道。',
+        bullets: ['自动分配 Agent', '微信通道', '上下文记忆', '30 秒接入'],
         link: links.lobster,
         action: '查看小龙虾认领',
       },
       {
         title: 'Neon Vow',
         tag: 'Interactive Manga / Mobile Story',
-        text: '一个移动端优先的互动漫画小说站点，围绕原创超级英雄展开，保留霓虹、漫画和章节式体验。',
-        bullets: ['移动端阅读', '互动漫画感', '原创英雄故事', '独立站点实验'],
+        text: '一个移动端优先的互动小说实验，从南港霓虹雨夜开始，用点击推进漫画式叙事。',
+        bullets: ['移动端阅读', '点击推进', '霓虹叙事', '互动小说实验'],
         link: links.neon,
         action: '查看 Neon Vow',
       },
@@ -87,19 +90,22 @@ const copy = {
     partySecondary: '看 GitHub',
   },
   en: {
-    nav: ['About', 'Now', 'Works', 'Party'],
+    pageTitle: 'Bill Xu | AI Product Builder',
+    metaDescription: 'Bill Xu homepage for fintech, AI consulting, game-like products, and personal projects.',
+    nav: ['Now', 'Works', 'About', 'Party'],
     heroEyebrow: 'Bill Xu · life-as-a-game player / AI resource guide',
     heroTitle: 'I treat life as an open-world game, and business, AI, and products as quests worth playing together.',
     heroText:
       'I started as a banking systems engineer and moved into fintech business leadership, internet finance, privacy computing, loan facilitation partnerships, and AI Agent experiments. This homepage is my personal hub for friends and partners.',
     heroPrimary: 'What I am doing now',
     heroSecondary: 'Team up',
-    stats: [
-      ['RMB 80B+', 'peak loan balance exposure'],
-      ['RMB 5B+', 'peak monthly transaction volume'],
-      ['1B+', 'DINQ multi-source talent records'],
-      ['1,000+', 'reachable AI experts'],
-    ],
+    heroImageAlt: 'Bill Xu life game cover',
+    heroCardTitle: 'Save File',
+    heroCardMeta: 'Fintech / AI / Game Life',
+    worksEyebrow: 'Projects / Inventory',
+    aboutEyebrow: 'About / Save File',
+    partyEyebrow: 'Join Party',
+    recordLabel: 'Regulatory filing information',
     aboutTitle: 'About Me',
     aboutLead:
       'This homepage is no longer just a cool cover. It is a denser save file. The core theme is still life as a game: every experience is a level, every project is a party, every new direction is a new map.',
@@ -133,24 +139,24 @@ const copy = {
       {
         title: 'AI Poker Lab',
         tag: 'AI Agent / Poker Arena',
-        text: 'Train your own AI Poker player, observe matches, tune style, and enter table competitions. A game environment for AI Agent decisions.',
-        bullets: ['AI player cards', 'local Agent connection', 'leaderboard and arena tables', 'Texas Poker Agent Skill'],
+        text: 'Train your own AI Poker player, watch lab tables and rankings, or connect a local Agent into the arena.',
+        bullets: ['AI player cards', 'Lab Tables', 'local Agent connection', 'Texas Poker Agent Skill'],
         link: links.poker,
         action: 'Open AI Poker Lab',
       },
       {
         title: 'Lobster AI Assistant',
         tag: 'Personal AI / WeChat Companion',
-        text: 'A claimable personal AI companion: choose a speaking style, bind WeChat, and chat like talking to a friend.',
-        bullets: ['6+ speaking styles', 'WeChat chat', 'memory capability', '3-step claiming flow'],
+        text: 'A cyber lobster onboarding terminal: enter a phone number, get an Agent assigned, scan WeChat, and start chatting.',
+        bullets: ['auto Agent assignment', 'WeChat channel', 'context memory', '30-second onboarding'],
         link: links.lobster,
         action: 'View Lobster AI',
       },
       {
         title: 'Neon Vow',
         tag: 'Interactive Manga / Mobile Story',
-        text: 'A mobile-first interactive manga novel site about an original superhero, with neon, comic, and chapter-based storytelling.',
-        bullets: ['mobile reading', 'interactive manga feel', 'original hero story', 'independent site experiment'],
+        text: 'A mobile-first interactive fiction experiment that opens in a neon rainy night and advances like a clickable comic.',
+        bullets: ['mobile reading', 'click-to-advance', 'neon storytelling', 'interactive fiction experiment'],
         link: links.neon,
         action: 'View Neon Vow',
       },
@@ -164,7 +170,7 @@ const copy = {
 } satisfies Record<'zh' | 'en', object>
 
 function getLocale(): 'zh' | 'en' {
-  const languages = typeof navigator === 'undefined' ? [] : [navigator.language, ...navigator.languages]
+  const languages = typeof navigator === 'undefined' ? [] : [navigator.language, ...(navigator.languages ?? [])]
   return languages.some((language) => language?.toLowerCase().startsWith('zh')) ? 'zh' : 'en'
 }
 
@@ -174,7 +180,9 @@ function App() {
 
   useEffect(() => {
     document.documentElement.lang = locale === 'zh' ? 'zh-CN' : 'en'
-  }, [locale])
+    document.title = c.pageTitle
+    document.querySelector('meta[name="description"]')?.setAttribute('content', c.metaDescription)
+  }, [c.metaDescription, c.pageTitle, locale])
 
   return (
     <main className="home-shell">
@@ -184,9 +192,9 @@ function App() {
           Bill Xu
         </a>
         <nav>
-          <a href="#about">{c.nav[0]}</a>
-          <a href="#now">{c.nav[1]}</a>
-          <a href="#works">{c.nav[2]}</a>
+          <a href="#now">{c.nav[0]}</a>
+          <a href="#works">{c.nav[1]}</a>
+          <a href="#about">{c.nav[2]}</a>
           <a href="#party">{c.nav[3]}</a>
         </nav>
       </header>
@@ -202,47 +210,10 @@ function App() {
           </div>
         </div>
         <div className="hero-card">
-          <img src="/comic-00-start.webp" alt="Bill Xu life game cover" />
+          <img src="/comic-00-start.webp" alt={c.heroImageAlt} />
           <div>
-            <strong>Save File</strong>
-            <span>Fintech / AI / Game Life</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="stats-grid" aria-label="highlights">
-        {c.stats.map(([value, label]) => (
-          <article className="stat-card" key={label}>
-            <strong>{value}</strong>
-            <span>{label}</span>
-          </article>
-        ))}
-      </section>
-
-      <section className="section about-section" id="about">
-        <div className="section-head">
-          <p className="eyebrow">About / Save File</p>
-          <h2>{c.aboutTitle}</h2>
-          <p>{c.aboutLead}</p>
-        </div>
-        <div className="about-grid">
-          <article className="profile-card">
-            <p className="eyebrow">{c.character.title}</p>
-            <h3>Bill Xu</h3>
-            <p>{c.character.className}</p>
-            <div className="trait-list">
-              {c.character.traits.map((trait) => (
-                <span key={trait}>{trait}</span>
-              ))}
-            </div>
-          </article>
-          <div className="timeline">
-            {c.timeline.map(([title, text]) => (
-              <article key={title}>
-                <strong>{title}</strong>
-                <p>{text}</p>
-              </article>
-            ))}
+            <strong>{c.heroCardTitle}</strong>
+            <span>{c.heroCardMeta}</span>
           </div>
         </div>
       </section>
@@ -268,7 +239,7 @@ function App() {
 
       <section className="section works-section" id="works">
         <div className="section-head">
-          <p className="eyebrow">Projects / Inventory</p>
+          <p className="eyebrow">{c.worksEyebrow}</p>
           <h2>{c.worksTitle}</h2>
           <p>{c.worksLead}</p>
         </div>
@@ -292,8 +263,36 @@ function App() {
         </div>
       </section>
 
+      <section className="section about-section" id="about">
+        <div className="section-head">
+          <p className="eyebrow">{c.aboutEyebrow}</p>
+          <h2>{c.aboutTitle}</h2>
+          <p>{c.aboutLead}</p>
+        </div>
+        <div className="about-grid">
+          <article className="profile-card">
+            <p className="eyebrow">{c.character.title}</p>
+            <h3>Bill Xu</h3>
+            <p>{c.character.className}</p>
+            <div className="trait-list">
+              {c.character.traits.map((trait) => (
+                <span key={trait}>{trait}</span>
+              ))}
+            </div>
+          </article>
+          <div className="timeline">
+            {c.timeline.map(([title, text]) => (
+              <article key={title}>
+                <strong>{title}</strong>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="party-section" id="party">
-        <p className="eyebrow">Join Party</p>
+        <p className="eyebrow">{c.partyEyebrow}</p>
         <h2>{c.partyTitle}</h2>
         <p>{c.partyText}</p>
         <div className="actions">
@@ -301,6 +300,16 @@ function App() {
           <a className="button" href={links.github} target="_blank" rel="noreferrer">{c.partySecondary}</a>
         </div>
       </section>
+
+      <footer className="record-footer" aria-label={c.recordLabel}>
+        <a href="https://beian.mps.gov.cn/#/query/webSearch?code=11010202011332" target="_blank" rel="noreferrer">
+          京公网安备11010202011332号
+        </a>
+        <span>·</span>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">
+          京ICP备2026016839号-1
+        </a>
+      </footer>
     </main>
   )
 }
