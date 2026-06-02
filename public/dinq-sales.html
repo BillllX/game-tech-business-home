@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DINQ AI 技术尽调专家网络</title>
+  <style>
+    :root {
+      --navy: #111d33;
+      --navy-2: #172845;
+      --gold: #c59a2e;
+      --gold-soft: #f1dfab;
+      --ink: #172033;
+      --muted: #687184;
+      --line: #e6e9ef;
+      --paper: #f7f8fb;
+      --white: #ffffff;
+      --green: #1c7c64;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      padding: 18px clamp(24px, 5vw, 72px);
+      color: rgba(255, 255, 255, 0.86);
+      background: rgba(17, 29, 51, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand {
+      position: absolute;
+      left: clamp(24px, 5vw, 72px);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .nav a:hover {
+      color: var(--white);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 680px;
+      display: grid;
+      align-items: center;
+      padding: 96px clamp(24px, 8vw, 112px);
+      color: var(--white);
+      background:
+        radial-gradient(circle at 75% 22%, rgba(197, 154, 46, 0.2), transparent 28%),
+        linear-gradient(135deg, #0d1729 0%, #13213b 52%, #0e1b31 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -120px -180px auto;
+      width: 520px;
+      height: 520px;
+      border: 1px solid rgba(197, 154, 46, 0.22);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 1080px;
+      margin: 0 auto;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 26px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 44px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .eyebrow::after {
+      content: "";
+      display: inline-block;
+      width: 44px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0 auto;
+      font-size: clamp(44px, 7.2vw, 92px);
+    }
+
+    .hero-subtitle {
+      max-width: 760px;
+      margin: 30px auto 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: clamp(18px, 2.2vw, 28px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 44px;
+    }
+
+    .audience-line {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      max-width: 780px;
+      margin-top: 28px;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 14px;
+    }
+
+    .audience-line span {
+      padding: 7px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .button.primary {
+      color: #172033;
+      background: var(--gold);
+      box-shadow: 0 16px 34px rgba(197, 154, 46, 0.24);
+    }
+
+    .button.secondary {
+      color: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      gap: 14px;
+      max-width: 980px;
+      margin: 64px auto 0;
+    }
+
+    .metric {
+      padding: 22px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--gold);
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: 13px;
+    }
+
+    section {
+      padding: 90px clamp(24px, 8vw, 112px);
+    }
+
+    .section-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      max-width: 780px;
+      margin: 0 auto 42px;
+      text-align: center;
+    }
+
+    .section-kicker {
+      margin-bottom: 14px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 52px);
+    }
+
+    .lead {
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 28px;
+      text-align: center;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 18px 48px rgba(16, 30, 54, 0.06);
+    }
+
+    .card h3 {
+      font-size: 22px;
+    }
+
+    .card p {
+      margin: 14px 0 0;
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      color: var(--gold);
+      background: rgba(197, 154, 46, 0.1);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .dark {
+      color: var(--white);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(197, 154, 46, 0.16), transparent 26%),
+        linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+    }
+
+    .dark .lead,
+    .dark .card p {
+      color: rgba(255, 255, 255, 0.66);
+    }
+
+    .dark .card {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      width: fit-content;
+      max-width: 100%;
+      margin: 20px auto 0;
+      padding: 0;
+      list-style: none;
+      text-align: left;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 22px;
+      color: var(--muted);
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.78em;
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    .dark .list li {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .quote {
+      padding: 42px;
+      text-align: center;
+      color: var(--white);
+      background: var(--navy);
+      border-radius: 30px;
+    }
+
+    .quote p {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: 1.36;
+      letter-spacing: -0.03em;
+    }
+
+    .quote strong {
+      color: var(--gold);
+    }
+
+    .process {
+      counter-reset: step;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .step {
+      counter-increment: step;
+      position: relative;
+      min-height: 210px;
+      padding: 28px;
+      text-align: center;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+    }
+
+    .step::before {
+      content: "0" counter(step);
+      display: block;
+      margin-bottom: 42px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+    }
+
+    .step h3 {
+      font-size: 20px;
+    }
+
+    .step p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .service {
+      display: grid;
+      gap: 20px;
+      align-content: start;
+      min-height: 100%;
+    }
+
+    .service.featured {
+      position: relative;
+      border-color: rgba(197, 154, 46, 0.6);
+      box-shadow: 0 20px 60px rgba(197, 154, 46, 0.16);
+    }
+
+    .service.featured::before {
+      content: "主推服务";
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      padding: 5px 9px;
+      color: #172033;
+      background: var(--gold);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .service-number {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.2em;
+    }
+
+    .case-card {
+      display: grid;
+      gap: 18px;
+      justify-items: center;
+      border-top: 4px solid var(--gold);
+    }
+
+    .case-card .client {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+    }
+
+    .deliverable {
+      padding: 16px;
+      color: var(--ink);
+      background: #fbf8ef;
+      border: 1px solid #efe2bd;
+      border-radius: 16px;
+      font-size: 14px;
+    }
+
+    .expert-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .expert-cloud span {
+      padding: 8px 12px;
+      color: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    .expert-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .expert-card .expert-name {
+      display: block;
+      margin-top: 14px;
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .expert-card .expert-name:first-of-type {
+      margin-top: 0;
+    }
+
+    .expert-card p {
+      margin-top: 4px;
+    }
+
+    .cta {
+      padding: 92px clamp(24px, 8vw, 112px);
+      color: var(--white);
+      background:
+        linear-gradient(rgba(17, 29, 51, 0.9), rgba(17, 29, 51, 0.94)),
+        radial-gradient(circle at 80% 0%, rgba(197, 154, 46, 0.35), transparent 34%);
+    }
+
+    .cta-box {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: clamp(32px, 6vw, 64px);
+      text-align: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 32px;
+    }
+
+    .cta h2 {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta p {
+      max-width: 690px;
+      margin: 18px auto 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 19px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding: 26px clamp(24px, 8vw, 112px);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.52);
+      background: #0a1220;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: inherit;
+    }
+
+    @media (max-width: 920px) {
+      .topbar {
+        position: static;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .brand {
+        position: static;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-metrics,
+      .expert-grid,
+      .grid.two,
+      .grid.three,
+      .process {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding-top: 64px;
+        padding-bottom: 64px;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .hero-actions {
+        display: none;
+      }
+
+      body {
+        background: var(--white);
+      }
+
+      section,
+      .hero,
+      .cta {
+        break-inside: avoid;
+        min-height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top">DINQ</a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#pain">客户痛点</a>
+      <a href="#solution">解决方案</a>
+      <a href="#network">专家网络</a>
+      <a href="#services">服务产品</a>
+      <a href="#cases">案例</a>
+      <a href="#contact">合作方式</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">DINQ · AI Expert Consulting</div>
+        <h1>AI 技术尽调专家网络</h1>
+        <p class="hero-subtitle">
+          48 小时连接一线 AI 研究员 / 开发者，帮助投资机构与产业决策者快速判断技术路线、标的质量与落地可行性。
+        </p>
+        <div class="audience-line" aria-label="适合客户">
+          <span>VC / PE</span>
+          <span>产业集团</span>
+          <span>CVC / 战略投资</span>
+          <span>AI 创新部门</span>
+        </div>
+        <div class="hero-actions">
+          <a class="button primary" href="#contact">预约 30 分钟需求诊断</a>
+          <a class="button secondary" href="#services">查看服务产品</a>
+        </div>
+        <div class="hero-metrics" aria-label="DINQ 核心资源">
+          <div class="metric">
+            <strong>10亿+</strong>
+            <span>多源 AI 人才数据</span>
+          </div>
+          <div class="metric">
+            <strong>1000+</strong>
+            <span>可调度 AI 专家</span>
+          </div>
+          <div class="metric">
+            <strong>80+</strong>
+            <span>青稞 Talk 技术分享</span>
+          </div>
+          <div class="metric">
+            <strong>24-48h</strong>
+            <span>返回专家匹配建议</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pain">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">Why Now</div>
+          <h2>AI 决策正在变成一场速度与判断力的竞争</h2>
+          <p class="lead">
+            对投资机构、产业集团和 AI 创新部门来说，关键问题不是“AI 是否重要”，而是这个方向是否真的成立、标的是否有壁垒、路线是否值得投入。
+          </p>
+        </div>
+
+        <div class="grid two">
+          <article class="card">
+            <span class="tag">信息滞后</span>
+            <h3>公开资料跟不上技术变化</h3>
+            <p>大模型、Agent、多模态、具身智能、AI Infra 等方向以周为单位迭代，报告和二手信息很容易过时。</p>
+          </article>
+          <article class="card">
+            <span class="tag">专家不够深</span>
+            <h3>传统专家网络难以触达一线开发者</h3>
+            <p>很多专家懂趋势，但未必真正参与过模型训练、后训练、推理部署、开源项目或 Agent 系统建设。</p>
+          </article>
+          <article class="card">
+            <span class="tag">叙事噪音</span>
+            <h3>AI 创业公司容易包装概念</h3>
+            <p>技术壁垒、工程难度、成本结构、数据飞轮与替代风险，需要用一线从业者交叉验证。</p>
+          </article>
+          <article class="card">
+            <span class="tag">内部短板</span>
+            <h3>业务团队缺少高密度技术判断样本</h3>
+            <p>投资、战略和业务团队往往懂行业与商业，但需要更快获得来自真实技术现场的判断依据。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="solution" class="dark">
+      <div class="section-inner">
+        <div class="quote">
+          <p>
+            DINQ 帮客户快速找到<strong>真正做过相关方向</strong>的一线专家，并把专家访谈转化为可进入投决会、立项会和战略讨论的判断 memo。
+          </p>
+        </div>
+
+        <div class="grid three" style="margin-top: 22px;">
+          <article class="card">
+            <h3>找得到真正懂的人</h3>
+            <p>依托 AI 人才搜索平台、青稞 AI 技术社区和专家网络，快速定位论文作者、开源项目贡献者、头部模型团队研究员与工程负责人。</p>
+          </article>
+          <article class="card">
+            <h3>问得出关键问题</h3>
+            <p>先拆解决策场景，将“想了解某个方向”转化为可访谈、可验证、可交叉对比的问题清单。</p>
+          </article>
+          <article class="card">
+            <h3>交付可用的结论</h3>
+            <p>专家 Call 不只是聊天。DINQ 会沉淀访谈纪要、技术路线对比、红旗风险和判断摘要。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="network">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">Expert Network</div>
+          <h2>不是泛 AI 顾问库，而是更接近技术生产现场的一线网络</h2>
+          <p class="lead">
+            DINQ 优先触达头部 AI 公司研究员、开源项目核心贡献者、论文作者、高校学者和工程实践者。
+          </p>
+        </div>
+
+        <div class="grid three">
+          <article class="card">
+            <h3>头部大模型公司</h3>
+            <ul class="list">
+              <li>Kimi、通义、字节跳动、智谱、MiniMax、StepFun 等方向专家</li>
+              <li>覆盖训练、后训练、评测、Agent、多模态和产品工程化</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>顶级实验室与高校</h3>
+            <ul class="list">
+              <li>清华、北大、中科院、上海 AI Lab、MIT、CMU、UC Berkeley、NUS、NTU 等</li>
+              <li>可触达论文作者、AP / 教授级研究者与博士研究员</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>开源项目与工程实践</h3>
+            <ul class="list">
+              <li>LLaMA-Factory、SGLang、KTransformers、verl、AWQ 等相关生态</li>
+              <li>覆盖推理加速、部署、数据、评测和成本优化</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="card" style="margin-top: 18px;">
+          <h3>覆盖方向</h3>
+          <p>大模型训练、后训练、RL、Agent、RAG、多模态、视频生成、世界模型、具身智能、推理加速、模型部署、AI Infra、数据飞轮、AI 应用落地。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="dark">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">Services</div>
+          <h2>三类标准化交付，覆盖从快速判断到深度尽调</h2>
+          <p class="lead">
+            客户可以从单通专家 Call 开始，也可以围绕一个方向或标的启动 7 天 AI DD Sprint。
+          </p>
+        </div>
+
+        <div class="grid three">
+          <article class="card service">
+            <div class="service-number">SERVICE 01</div>
+            <h3>AI Expert Call</h3>
+            <p>适合投前快判、方案 sanity check、路线选择和单点问题验证。</p>
+            <ul class="list">
+              <li>专家画像确认</li>
+              <li>专家 shortlist</li>
+              <li>60-90 分钟专家 Call</li>
+              <li>访谈纪要与关键判断摘要</li>
+            </ul>
+          </article>
+
+          <article class="card service featured">
+            <div class="service-number">SERVICE 02</div>
+            <h3>AI DD Sprint</h3>
+            <p>7 天完成一个 AI 方向或标的的技术判断，适合投决、并购、投后评估和产业立项。</p>
+            <ul class="list">
+              <li>3-5 位专家组合访谈</li>
+              <li>技术路线与团队能力判断</li>
+              <li>红旗风险与竞品替代分析</li>
+              <li>结论 memo</li>
+            </ul>
+          </article>
+
+          <article class="card service">
+            <div class="service-number">SERVICE 03</div>
+            <h3>MVP Validation</h3>
+            <p>适合企业新方向冷启动，用专家判断、内容分发和轻量获客漏斗验证需求。</p>
+            <ul class="list">
+              <li>需求与目标用户假设拆解</li>
+              <li>自媒体与私域引流测试</li>
+              <li>轻量获客漏斗</li>
+              <li>转化数据复盘</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">AI DD Sprint</div>
+          <h2>7 天完成一个 AI 方向或标的的技术判断</h2>
+          <p class="lead">
+            将开放问题拆成可访谈、可验证、可交叉对比的判断链路，让客户快速形成下一步决策。
+          </p>
+        </div>
+
+        <div class="process">
+          <article class="step">
+            <h3>需求访谈</h3>
+            <p>明确客户关注的方向、标的、业务场景和决策问题。</p>
+          </article>
+          <article class="step">
+            <h3>专家匹配</h3>
+            <p>24-48 小时内返回专家 shortlist、推荐访谈组合与访谈框架。</p>
+          </article>
+          <article class="step">
+            <h3>组合访谈</h3>
+            <p>完成 3-5 位一线专家访谈，围绕技术路线、工程难度和替代风险交叉验证。</p>
+          </article>
+          <article class="step">
+            <h3>判断 memo</h3>
+            <p>输出技术判断、红旗风险、竞争替代、成本结构和投资 / 立项建议摘要。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="cases">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">Case Studies</div>
+          <h2>已落地的专家咨询场景</h2>
+          <p class="lead">
+            通过一线专家组合访谈，帮助客户在高噪音 AI 赛道中建立可信的技术坐标系。
+          </p>
+        </div>
+
+        <div class="grid three">
+          <article class="card case-card">
+            <div class="client">蓝驰创投 × 具身智能</div>
+            <h3>校准 VLA 技术路线、数据飞轮与量产节奏</h3>
+            <p>为重仓具身智能的早期基金提供技术方向判断与关键风险识别。</p>
+            <div class="deliverable">交付：3 位 VLA / 具身一线专家访谈 + 技术路线对比纪要 + 投资判断摘要</div>
+          </article>
+
+          <article class="card case-card">
+            <div class="client">德讯投资 × World Models</div>
+            <h3>在概念噪音中建立可信技术坐标系</h3>
+            <p>组合多位一线作者，从视频生成、自动驾驶、具身等子方向拆解世界模型机会。</p>
+            <div class="deliverable">交付：跨子方向专家访谈组合 + 技术坐标系 memo + 标的“祛魅”清单</div>
+          </article>
+
+          <article class="card case-card">
+            <div class="client">大唐环境 × AI 赋能讲堂</div>
+            <h3>面向产业场景的 AI 前沿与应用研讨</h3>
+            <p>围绕 DeepSeek、AI 前沿趋势和环保行业落地场景开展专家讲堂与互动答疑。</p>
+            <div class="deliverable">交付：现场专家讲堂 + 技术趋势解读 + 行业应用研讨 + 互动答疑</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">Why DINQ</div>
+          <h2>更快、更深、更接近一线技术现场</h2>
+          <p class="lead">
+            DINQ 的优势来自 AI 技术背景、人才搜索能力、技术社区运营和机构客户服务经验的组合。
+          </p>
+        </div>
+
+        <div class="expert-cloud" aria-label="DINQ 差异化优势">
+          <span>AI 技术理解</span>
+          <span>一线专家触达</span>
+          <span>青稞 AI 社区</span>
+          <span>10 亿+ 人才数据</span>
+          <span>结构化检索</span>
+          <span>投资机构服务经验</span>
+          <span>产业资源合作</span>
+          <span>访谈问题拆解</span>
+          <span>判断 memo 交付</span>
+          <span>24-48 小时响应</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="cta">
+      <div class="cta-box">
+        <div class="section-kicker">Next Step</div>
+        <h2>预约一次 30 分钟 AI 技术判断需求诊断</h2>
+        <p>
+          告诉我们你正在关注的方向、标的或业务问题。DINQ 将在 24 小时内返回专家匹配建议与交付方案。
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="mailto:contact@dinq.ai?subject=预约 DINQ AI 技术判断需求诊断">邮件预约</a>
+          <a class="button secondary" href="#top">返回顶部</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark">
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">专家可调度性 / EXPERT NETWORK</div>
+          <h2>覆盖头部 AI 公司、顶级实验室与顶尖高校</h2>
+          <p class="lead">
+            DINQ 不是只提供泛化观点，而是帮助客户触达真正处在模型、算法、Infra、Agent、多模态和具身智能一线的人。
+          </p>
+        </div>
+
+        <div class="grid three">
+          <article class="card">
+            <h3>头部大模型公司</h3>
+            <div class="expert-cloud" aria-label="头部大模型公司">
+              <span>Kimi</span>
+              <span>通义</span>
+              <span>字节跳动</span>
+              <span>智谱</span>
+              <span>MiniMax</span>
+              <span>StepFun</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>海外顶级实验室</h3>
+            <div class="expert-cloud" aria-label="海外顶级实验室">
+              <span>OpenAI</span>
+              <span>Google DeepMind</span>
+              <span>NVIDIA</span>
+              <span>xAI</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>顶尖高校 / 研究院</h3>
+            <div class="expert-cloud" aria-label="顶尖高校和研究院">
+              <span>清华</span>
+              <span>北大</span>
+              <span>上海 AI 实验室</span>
+              <span>中科院</span>
+              <span>MIT</span>
+              <span>CMU</span>
+              <span>UC Berkeley</span>
+              <span>NUS</span>
+              <span>NTU</span>
+              <span>港中文</span>
+              <span>港科大</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-inner">
+        <div class="section-head">
+          <div class="section-kicker">专家品牌 / EXPERT BRANDS</div>
+          <h2>可触达的一线代表性专家</h2>
+          <p class="lead">
+            以下代表性专家覆盖产业界研究员、高校学者和开源明星项目作者，帮助客户围绕具体技术问题建立可交叉验证的判断网络。
+          </p>
+        </div>
+
+        <div class="expert-grid">
+          <article class="card expert-card">
+            <span class="tag">产业界 / 资深研究员</span>
+            <span class="expert-name">郑楚杰 — GSPO 训练算法</span>
+            <p>通义千问 · Qwen3/QwQ 核心贡献者</p>
+            <span class="expert-name">刘星超 — Rectified Flow</span>
+            <p>DeepSeek 研究员 · UT Austin 博士</p>
+            <span class="expert-name">程威宇 — M2.1 Agent 后训练</span>
+            <p>MiniMax · 通用模型后训练负责人</p>
+            <span class="expert-name">林灏 — RLinf</span>
+            <p>无问芯穹 · 首席研究员</p>
+          </article>
+          <article class="card expert-card">
+            <span class="tag">产业界 / Infra 与模型系统</span>
+            <span class="expert-name">盛颖 — SGLang</span>
+            <p>Databricks Mosaic · 斯坦福博士</p>
+            <span class="expert-name">宋恺涛 / 鲁亚东 — Chain-of-Model / OmniParser</span>
+            <p>微软研究院 · 高级研究员</p>
+            <span class="expert-name">白世豪 — LightLLM 核心开发</span>
+            <p>商汤科技</p>
+          </article>
+          <article class="card expert-card">
+            <span class="tag">高校学者（AP / 教授级）</span>
+            <span class="expert-name">张怡颖 — InferCept / Preble / Cognify</span>
+            <p>UCSD · 副教授</p>
+            <span class="expert-name">章明星 — KTransformers</span>
+            <p>清华大学 · 计算机系副教授</p>
+            <span class="expert-name">傅朝友 — VITA</span>
+            <p>南京大学 · 研究员 / 助理教授</p>
+          </article>
+          <article class="card expert-card">
+            <span class="tag">开源明星项目作者</span>
+            <span class="expert-name">郑耀威 — LLaMA-Factory</span>
+            <p>北京航空航天大学</p>
+            <span class="expert-name">唐嘉铭 — AWQ 量化</span>
+            <p>MIT</p>
+            <span class="expert-name">朱子霖 — slime</span>
+            <p>智谱 AI</p>
+          </article>
+          <article class="card expert-card">
+            <span class="tag">开源生态贡献者</span>
+            <span class="expert-name">童雨轩 — verl</span>
+            <p>verl core contributor</p>
+            <span class="expert-name">张昱轩 — CogVideoX 作者之一</span>
+            <p>智谱 AI</p>
+            <span class="expert-name">高岱恒 — EraseAnything</span>
+            <p>社区联合创始人</p>
+          </article>
+          <article class="card expert-card">
+            <span class="tag">调度方式</span>
+            <h3>按问题组建专家组合</h3>
+            <p>
+              针对投前判断、产业立项、竞品拆解或技术路线选择，DINQ 会按方向组合 3-5 位专家，覆盖研究、工程、产品和商业落地视角。
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>DINQ · AI 技术尽调专家网络</span>
+    <span>AI Expert Consulting for Investment & Industrial Decision-Making</span>
+    <a href="https://beian.mps.gov.cn/#/query/webSearch?code=11010202011332" target="_blank" rel="noreferrer">京公网安备11010202011332号</a>
+    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">京ICP备2026016839号-1</a>
+  </footer>
+</body>
+</html>

@@ -3,6 +3,7 @@ import './App.css'
 
 const links = {
   dinq: 'http://aiagentswitcher.com/dinq/',
+  dinqSales: '/dinq-sales.html',
   poker: 'http://aiagentswitcher.com/aipokerclub',
   lobster: 'http://aiagentswitcher.com/lobster',
   neon: 'http://aiagentswitcher.com/neon-ebb/',
@@ -55,6 +56,7 @@ const copy = {
       '适合 VC/PE、产业集团、咨询公司和正在寻找 AI 路线判断的企业团队。',
     ],
     nowCta: '查看 DINQ 页面',
+    nowSalesCta: '查看销售版页面',
     worksTitle: '我的作品',
     worksLead: '这些项目体现了我喜欢的方向：AI Agent、游戏化系统、个人智能助手和互动内容。',
     works: [
@@ -133,6 +135,7 @@ const copy = {
       'Useful for VC/PE, industrial groups, consulting firms, and companies seeking AI roadmap judgment.',
     ],
     nowCta: 'View DINQ page',
+    nowSalesCta: 'View sales page',
     worksTitle: 'Works',
     worksLead: 'These projects show what I like building: AI Agents, game-like systems, personal assistants, and interactive content.',
     works: [
@@ -231,9 +234,14 @@ function App() {
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <a className="text-link" href={links.dinq} target="_blank" rel="noreferrer">
-            {c.nowCta}
-          </a>
+          <div className="now-actions">
+            <a className="text-link" href={links.dinq} target="_blank" rel="noreferrer">
+              {c.nowCta}
+            </a>
+            <a className="text-link" href={links.dinqSales}>
+              {c.nowSalesCta}
+            </a>
+          </div>
         </div>
       </section>
 

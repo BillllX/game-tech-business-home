@@ -315,6 +315,12 @@ p {
   white-space: nowrap;
 }
 
+.now-actions {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
 .works-grid {
   display: grid;
   gap: 18px;
